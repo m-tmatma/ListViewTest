@@ -6,6 +6,9 @@ namespace ListViewTest
         {
             InitializeComponent();
             AddListviewItems();
+
+            this.listView1.ColumnReordered += new ColumnReorderedEventHandler(this.ListView1_ColumnReordered);
+            this.listView1.ColumnWidthChanging += new ColumnWidthChangingEventHandler(this.ListView1_ColumnWidthChanging);
         }
 
 
@@ -26,7 +29,7 @@ namespace ListViewTest
             {
                 ProgressBar prg = new ProgressBar();
                 prg.Value = 100 / (i + 1);
-                var item1 = new ListViewItem("item", 0);
+                var item1 = new ListViewItem("item" + i.ToString(), 0);
                 item1.Checked = true;
                 item1.SubItems.Add("1");
                 item1.SubItems.Add("2");
@@ -40,6 +43,28 @@ namespace ListViewTest
             }
         }
 
+        private void ResizeProgressBar()
+        {
+            foreach (ListViewItem item in this.listView1.Items)
+            {
+                var subitem = item.SubItems[4];
+                var progress = (ProgressBar)subitem.Tag;
+                var bounds = subitem.Bounds;
+                progress.Bounds = bounds;
+            }
+        }
+
+        private void ListView1_ColumnReordered(object? sender, ColumnReorderedEventArgs e)
+        {
+            ResizeProgressBar();
+        }
+
+        private void ListView1_ColumnWidthChanging(object? sender, ColumnWidthChangingEventArgs e)
+        {
+            ResizeProgressBar();
+        }
+
+
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -47,14 +72,7 @@ namespace ListViewTest
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            foreach (ListViewItem item in this.listView1.Items)
-            {
-                int index = 0;
-                var subitem = item.SubItems[4];
-                var progress = (ProgressBar)subitem.Tag;
-                var bounds = subitem.Bounds;
-                progress.Bounds = bounds;
-            }
+            ResizeProgressBar();
         }
     }
 }
