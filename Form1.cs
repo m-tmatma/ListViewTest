@@ -25,7 +25,7 @@ namespace ListViewTest
             for (int i = 0; i < 10; i++)
             {
                 ProgressBar prg = new ProgressBar();
-                prg.Value = 50;
+                prg.Value = 100 / (i + 1);
                 var item1 = new ListViewItem("item", 0);
                 item1.Checked = true;
                 item1.SubItems.Add("1");
