@@ -4,6 +4,8 @@ namespace ListViewTest
 
     public partial class Form1 : Form
     {
+        private int progressIndex = 0;
+
         public Form1()
         {
             InitializeComponent();
@@ -20,7 +22,8 @@ namespace ListViewTest
             this.listView1.Columns.Add("Item Colunm 1", -2, HorizontalAlignment.Left);
             this.listView1.Columns.Add("Item Colunm 2", -2, HorizontalAlignment.Left);
             this.listView1.Columns.Add("Item Colunm 3", -2, HorizontalAlignment.Left);
-            this.listView1.Columns.Add("ProgressBar", -2, HorizontalAlignment.Left);
+            ColumnHeader header = this.listView1.Columns.Add("ProgressBar", -2, HorizontalAlignment.Left);
+            this.progressIndex = header.Index;
 
             this.listView1.View = View.Details;
             this.listView1.LabelEdit = false;
@@ -75,7 +78,7 @@ namespace ListViewTest
             }
             foreach (ListViewItem item in this.listView1.Items)
             {
-                for ( int i = 0; i <= 4; i++ )
+                for ( int i = 0; i <= this.progressIndex; i++ )
                 {
                     ListViewItem.ListViewSubItem subitem = item.SubItems[i];
                     var bounds = subitem.Bounds;
@@ -89,7 +92,7 @@ namespace ListViewTest
         {
             foreach (ListViewItem item in this.listView1.Items)
             {
-                var subitem = item.SubItems[4];
+                var subitem = item.SubItems[this.progressIndex];
                 var progress = (ProgressBar)subitem.Tag;
                 var bounds = subitem.Bounds;
                 progress.Bounds = bounds;
@@ -135,10 +138,10 @@ namespace ListViewTest
         private void ResizeProgressBarReorder(int oldindex, int newindex)
         {
             int left = 0;
-            left = GetLeft(4, oldindex, newindex);
+            left = GetLeft(this.progressIndex, oldindex, newindex);
             foreach (ListViewItem item in this.listView1.Items)
             {
-                var subitem = item.SubItems[4];
+                var subitem = item.SubItems[this.progressIndex];
                 var progress = (ProgressBar)subitem.Tag;
                 var bounds = new Rectangle(left, subitem.Bounds.Top, subitem.Bounds.Width, subitem.Bounds.Height);
                 progress.Bounds = bounds;
