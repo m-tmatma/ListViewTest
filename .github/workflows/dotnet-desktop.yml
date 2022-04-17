@@ -41,7 +41,7 @@ name: .NET Core Desktop
 on:
   push:
     branches:
-      - main
+      - master
       - 'feature/**'
   pull_request:
     branches: [ master ]
