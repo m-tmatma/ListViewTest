@@ -1,4 +1,4 @@
-namespace ListViewTest
+﻿namespace ListViewTest
 {
     partial class Form1
     {
