@@ -1,5 +1,7 @@
 namespace ListViewTest
 {
+    using System.Diagnostics;
+
     public partial class Form1 : Form
     {
         public Form1()
@@ -49,6 +51,37 @@ namespace ListViewTest
                 var subitem4 = item1.SubItems.Add("5");
                 subitem4.Name = "3";
                 this.listView1.Items.Add(item1);
+            }
+        }
+
+        private void Trace()
+        {
+            int j = 0;
+            var indexes = new Dictionary<int, int>();
+            foreach (ColumnHeader header in this.listView1.Columns)
+            {
+                indexes[header.DisplayIndex] = header.Index;
+            }
+            int tmp = 0;
+            foreach (KeyValuePair<int, int> item in indexes)
+            {
+                Debug.WriteLine($"{item.Key} => {item.Value}");
+                tmp++;
+            }
+
+            foreach (ColumnHeader header in this.listView1.Columns)
+            {
+                Debug.WriteLine($"Index {header.Index} DisplayIndex {header.DisplayIndex} Width {header.Width}");
+            }
+            foreach (ListViewItem item in this.listView1.Items)
+            {
+                for ( int i = 0; i <= 4; i++ )
+                {
+                    ListViewItem.ListViewSubItem subitem = item.SubItems[i];
+                    var bounds = subitem.Bounds;
+                    Debug.WriteLine($"[{j}][{i}] {bounds} {subitem.Text} {subitem.Name}");
+                }
+                j++;
             }
         }
 
