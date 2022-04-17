@@ -96,6 +96,12 @@ namespace ListViewTest
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <see href="https://docs.microsoft.com/en-us/dotnet/api/system.windows.controls.datagrid.columnreordered?view=windowsdesktop-6.0"/>
         private void ListView1_ColumnReordered(object? sender, ColumnReorderedEventArgs e)
         {
             Debug.WriteLine($"{e.OldDisplayIndex} => {e.NewDisplayIndex} {e.Header.Index} {e.Header.Name} {e.Header.DisplayIndex}");
