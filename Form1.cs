@@ -112,16 +112,8 @@ namespace ListViewTest
             }
 
             int data = listIndex[olddisplayindex];
-            if (olddisplayindex < newdisplayindex)
-            {
-                listIndex.RemoveAt(olddisplayindex);
-                listIndex.Insert(newdisplayindex, data);
-            }
-            else if (olddisplayindex > newdisplayindex)
-            {
-                listIndex.RemoveAt(olddisplayindex);
-                listIndex.Insert(newdisplayindex, data);
-            }
+            listIndex.RemoveAt(olddisplayindex);
+            listIndex.Insert(newdisplayindex, data);
             return listIndex;
         }
 
