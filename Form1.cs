@@ -96,6 +96,63 @@ namespace ListViewTest
             }
         }
 
+        private List<int> GetNewIndexes(int olddisplayindex, int newdisplayindex)
+        {
+            Debug.WriteLine($"olddisplayindex: {olddisplayindex} newdisplayindex: {newdisplayindex}");
+            var displayMap = new Dictionary<int, int>();
+            foreach (ColumnHeader header in this.listView1.Columns)
+            {
+                displayMap[header.DisplayIndex] = header.Index;
+            }
+
+            var listIndex = new List<int>();
+            for (int displayIndex = 0; displayIndex < this.listView1.Columns.Count; displayIndex++)
+            {
+                listIndex.Add(displayMap[displayIndex]);
+            }
+
+            int data = listIndex[olddisplayindex];
+            if (olddisplayindex < newdisplayindex)
+            {
+                listIndex.Insert(newdisplayindex, data);
+                listIndex.RemoveAt(olddisplayindex);
+            }
+            else if (olddisplayindex > newdisplayindex)
+            {
+                listIndex.RemoveAt(olddisplayindex);
+                listIndex.Insert(newdisplayindex, data);
+            }
+            return listIndex;
+        }
+
+
+        private int GetLeft(int targetindex, int oldindex, int newindex)
+        {
+            int left = 0;
+            List<int> indexes = GetNewIndexes(oldindex, newindex);
+            int displayIndex = indexes.IndexOf(targetindex);
+            for (int i = 0; i < displayIndex; i++)
+            {
+                int index = indexes[i];
+                left += this.listView1.Columns[index].Width;
+            }
+
+            return left;
+        }
+
+        private void ResizeProgressBarReorder(int oldindex, int newindex)
+        {
+            int left = 0;
+            left = GetLeft(4, oldindex, newindex);
+            foreach (ListViewItem item in this.listView1.Items)
+            {
+                var subitem = item.SubItems[4];
+                var progress = (ProgressBar)subitem.Tag;
+                var bounds = new Rectangle(left, subitem.Bounds.Top, subitem.Bounds.Width, subitem.Bounds.Height);
+                progress.Bounds = bounds;
+            }
+        }
+
         /// <summary>
         ///
         /// </summary>
@@ -106,7 +163,7 @@ namespace ListViewTest
         {
             Debug.WriteLine($"{e.OldDisplayIndex} => {e.NewDisplayIndex} {e.Header.Index} {e.Header.Name} {e.Header.DisplayIndex}");
             Trace();
-            ResizeProgressBar();
+            ResizeProgressBarReorder(e.OldDisplayIndex, e.NewDisplayIndex);
         }
 
         private void ListView1_ColumnWidthChanging(object? sender, ColumnWidthChangingEventArgs e)
