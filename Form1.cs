@@ -14,11 +14,11 @@ namespace ListViewTest
 
         private void AddListviewItems()
         {
-            this.listView1.Columns.Add("Item Colunm", -2, HorizontalAlignment.Left);
+            this.listView1.Columns.Add("Item Colunm 0", -2, HorizontalAlignment.Left);
+            this.listView1.Columns.Add("Item Colunm 1", -2, HorizontalAlignment.Left);
             this.listView1.Columns.Add("Item Colunm 2", -2, HorizontalAlignment.Left);
             this.listView1.Columns.Add("Item Colunm 3", -2, HorizontalAlignment.Left);
-            this.listView1.Columns.Add("Item Colunm 4", -2, HorizontalAlignment.Left);
-            this.listView1.Columns.Add("Item Colunm 5", -2, HorizontalAlignment.Left);
+            this.listView1.Columns.Add("ProgressBar", -2, HorizontalAlignment.Left);
 
             this.listView1.View = View.Details;
             this.listView1.LabelEdit = false;
@@ -31,14 +31,23 @@ namespace ListViewTest
                 prg.Value = 100 / (i + 1);
                 var item1 = new ListViewItem("item" + i.ToString(), 0);
                 item1.Checked = true;
-                item1.SubItems.Add("1");
-                item1.SubItems.Add("2");
-                item1.SubItems.Add("3");
+                var subitem0 = item1.SubItems.Add("1");
+                subitem0.Name = "1";
+
+                var subitem1 = item1.SubItems.Add("2");
+                subitem1.Name = "2";
+
+                var subitem2 = item1.SubItems.Add("3");
+                subitem2.Name = "3";
+
                 var subitem = item1.SubItems.Add("-------");
                 subitem.Tag = prg;
+                subitem.Name = "Progress";
 
                 this.listView1.Controls.Add(prg);
-                item1.SubItems.Add("5");
+
+                var subitem4 = item1.SubItems.Add("5");
+                subitem4.Name = "3";
                 this.listView1.Items.Add(item1);
             }
         }
