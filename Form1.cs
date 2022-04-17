@@ -98,11 +98,14 @@ namespace ListViewTest
 
         private void ListView1_ColumnReordered(object? sender, ColumnReorderedEventArgs e)
         {
+            Debug.WriteLine($"{e.OldDisplayIndex} => {e.NewDisplayIndex} {e.Header.Index} {e.Header.Name} {e.Header.DisplayIndex}");
+            Trace();
             ResizeProgressBar();
         }
 
         private void ListView1_ColumnWidthChanging(object? sender, ColumnWidthChangingEventArgs e)
         {
+            Trace();
             ResizeProgressBar();
         }
 
